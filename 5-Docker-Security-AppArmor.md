@@ -1,4 +1,4 @@
-
+﻿
 
 \# Exercise 5: Docker Security with AppArmor and Python
 
@@ -270,7 +270,7 @@ On a supported Linux host, the profile's restrictions could be tested using the 
 
 
 
-A: AppArmor enforces mandatory access control policies that confine what a containerized application can access — files, network, binaries — adding a security layer beyond Docker's default isolation.
+A: AppArmor enforces mandatory access control policies that confine what a containerized application can access â€” files, network, binaries â€” adding a security layer beyond Docker's default isolation.
 
 
 
@@ -340,5 +340,6 @@ You should see `app.py` and `Dockerfile` in that folder.
 
 
 
-\*\*Send me the output of these two commands.\*\* Next, we’ll check Git status and push only the Assignment 5 files and screenshots to your existing GitHub repository.
+\*\*Send me the output of these two commands.\*\* Next, weâ€™ll check Git status and push only the Assignment 5 files and screenshots to your existing GitHub repository.
+
 
