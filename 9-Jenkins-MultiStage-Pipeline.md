@@ -1,91 +1,120 @@
-# Assignment 9: Jenkins Multi-Stage Pipeline
+# Exercise 9: Jenkins Multi-Stage Pipeline — Deploying a Python Application
 
 ## Objective
 
-To create a Jenkins multi-stage pipeline that automatically tests, deploys, runs, and verifies a Python Flask application using a Jenkinsfile stored in GitHub.
+Build a Jenkins Pipeline job that performs multiple stages — Build, Test, Deploy, Run Application, and a post-deploy Test — for a sample Flask application, demonstrating a realistic multi-stage CI/CD workflow.
 
-## Tools and Technologies
+## Scenario
 
-- Jenkins
-- Docker
-- Git and GitHub
-- Python 3
-- Flask
-- pytest
-- Declarative Jenkins Pipeline
+Automate the CI/CD pipeline for a Python Flask application through five stages:
 
-## Application Overview
+1. **Build** — create a Python virtual environment and install dependencies.
+2. **Test** — run unit tests.
+3. **Deploy** — copy the application to a mock deployment directory.
+4. **Run Application** — start the deployed application in the background.
+5. **Test Application** — verify the application using the test script.
 
-A simple Python Flask application is used to demonstrate the Jenkins multi-stage pipeline. The application returns a message when accessed through the root URL.
+## Step 1: Flask Application
 
-**Expected Output**
+### `app.py`
 
-    Hello, Jenkins Multi-Stage Pipeline!
+The Flask application returns a message when the root URL is accessed.
 
-## Implementation
+```python
+from flask import Flask
 
-### Step 1: Push Application Files to GitHub
+app = Flask(__name__)
 
-Created the following files in the `devops-sample-code` GitHub repository:
+@app.route("/")
+def hello():
+    return "Hello, Jenkins Multi-Stage Pipeline!"
 
-- `app.py` — Contains the Flask application.
-- `requirements.txt` — Specifies the Python dependencies.
-- `test_app.py` — Contains the application test case.
-- `Jenkinsfile` — Defines the pipeline stages.
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
+```
 
-The files were committed and pushed to the `main` branch.
+### `requirements.txt`
 
-![Application files pushed to GitHub](Images/jenkins-pipeline-files-pushed.png)
+```text
+flask==2.1.2
+Werkzeug==2.1.2
+```
 
-### Step 2: Configure the Jenkins Pipeline
+Werkzeug is pinned to a compatible version to prevent the import error encountered during the pipeline test.
 
-Created a Jenkins pipeline job named `MultiStagePipeline` and configured it to retrieve the Jenkinsfile from GitHub using Pipeline Script from SCM.
+### `test_app.py`
 
-**Configuration Details**
+```python
+import unittest
+from app import app
 
+class TestApp(unittest.TestCase):
+    def test_home(self):
+        tester = app.test_client()
+        response = tester.get("/")
+        print(response.data.decode("utf-8"))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data.decode("utf-8"), "Hello, Jenkins Multi-Stage Pipeline!")
+
+if __name__ == "__main__":
+    unittest.main()
+```
+
+## Step 2: Jenkinsfile
+
+The declarative Jenkinsfile defines five stages. A Python virtual environment is used to install and run dependencies.
+
+- **Build:** Create the virtual environment and install Flask.
+- **Test:** Install pytest and execute the application test.
+- **Deploy:** Copy `app.py` into the `python-app-deploy` directory.
+- **Run Application:** Start the deployed Flask application in the background.
+- **Test Application:** Execute the test script again and verify the application response.
+
+The pipeline also includes post-build actions that display a success or failure message.
+
+## Step 3: Push to the Existing Repository
+
+The application files are stored in the existing `devops-sample-code` GitHub repository.
+
+Repository URL: https://github.com/heyfn/devops-sample-code
+
+The files include:
+
+- `app.py`
+- `requirements.txt`
+- `test_app.py`
+- `Jenkinsfile`
+
+The changes were committed and pushed to the `main` branch.
+
+![Pipeline files pushed to GitHub](Images/jenkins-pipeline-files-pushed.png)
+
+## Step 4: Create the Jenkins Pipeline Job
+
+Created a Jenkins Pipeline job named `MultiStagePipeline`.
+
+## Step 5: Configure Pipeline from SCM
+
+Configured Jenkins to retrieve the Jenkinsfile directly from GitHub.
+
+- **Definition:** Pipeline script from SCM
 - **SCM:** Git
 - **Repository URL:** `https://github.com/heyfn/devops-sample-code.git`
-- **Branch:** `*/main`
+- **Branch Specifier:** `*/main`
 - **Script Path:** `Jenkinsfile`
 
-![Jenkins pipeline SCM configuration](Images/jenkins-pipeline-scm-config.png)
+![Pipeline SCM configuration](Images/jenkins-pipeline-scm-config.png)
 
-### Step 3: Configure Python in the Jenkins Container
+## Step 6: Install Python in the Jenkins Container
 
-Installed Python 3, pip, the Python virtual environment package, and Flask in the Jenkins container. Verified that Python and Flask were installed successfully.
+The Jenkins Docker image does not include Python by default. Python 3, pip, the virtual environment package, and Flask were installed in the running Jenkins container.
 
-![Python and Flask installation verification](Images/jenkins-container-python-verify.png)
+The installation was verified by checking the Python and Flask versions.
 
-### Step 4: Execute the Multi-Stage Pipeline
+![Python and Flask verified inside the Jenkins container](Images/jenkins-container-python-verify.png)
 
-The Jenkinsfile defines four stages to automate the application workflow.
+**Note on persistence:** Installing packages directly inside a running container changes its writable layer. If the container is removed and recreated, these system-level installations may need to be repeated. A custom Jenkins image can provide a more persistent setup.
 
-**1. Test**
+## Step 7: Troubleshoot Dependency Compatibility
 
-- Creates a Python virtual environment.
-- Installs the required dependencies and pytest.
-- Executes the test case in `test_app.py`.
-
-**2. Deploy**
-
-- Installs the application dependencies in the virtual environment.
-
-**3. Run Application**
-
-- Starts the Flask application in the background.
-- Waits briefly for the application to start.
-
-**4. Test Application**
-
-- Uses `curl` to send a request to `http://localhost:5000`.
-- Checks that the application responds successfully with the expected message.
-
-![Successful Jenkins multi-stage pipeline](Images/jenkins-multistage-pipeline-success.png)
-
-## Result
-
-The Jenkins multi-stage pipeline executed successfully. All four stages completed, and the application returned the expected response:
-
-    Hello, Jenkins Multi-Stage Pipeline!
-
-**Final Status: SUCCESS**
+The initial pipeline run failed
