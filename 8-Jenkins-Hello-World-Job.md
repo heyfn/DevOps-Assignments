@@ -1,4 +1,4 @@
-\# Exercise 8: Creating a "Hello World" Jenkins Job
+﻿\# Exercise 8: Creating a "Hello World" Jenkins Job
 
 
 
@@ -6,7 +6,7 @@
 
 
 
-Create a GitHub repository containing a simple shell script, then configure a Jenkins Freestyle job to clone that repository and execute the script — demonstrating a basic CI pipeline from source control to build execution.
+Create a GitHub repository containing a simple shell script, then configure a Jenkins Freestyle job to clone that repository and execute the script â€” demonstrating a basic CI pipeline from source control to build execution.
 
 
 
@@ -32,7 +32,7 @@ Created `hello-world.sh` with the following content:
 
 ```bash
 
-\#!/bin/bash
+#!/bin/bash
 
 echo "Hello, Jenkins!"
 
@@ -84,7 +84,7 @@ Created a Jenkins Freestyle project named `HelloWorld`.
 
 
 
-\### Source Code Management — Git
+\### Source Code Management â€” Git
 
 
 
@@ -100,7 +100,7 @@ Branch: `\*/main`
 
 
 
-\### Build Steps — Execute shell
+\### Build Steps â€” Execute shell
 
 
 
