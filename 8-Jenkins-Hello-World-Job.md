@@ -1,16 +1,16 @@
-﻿\# Exercise 8: Creating a "Hello World" Jenkins Job
+﻿# Exercise 8: Creating a "Hello World" Jenkins Job
 
 
 
-\## Objective
+## Objective
 
 
 
-Create a GitHub repository containing a simple shell script, then configure a Jenkins Freestyle job to clone that repository and execute the script â€” demonstrating a basic CI pipeline from source control to build execution.
+Create a GitHub repository containing a simple shell script, then configure a Jenkins Freestyle job to clone that repository and execute the script — demonstrating a basic CI pipeline from source control to build execution.
 
 
 
-\## Step 1: Create the GitHub Repository
+## Step 1: Create the GitHub Repository
 
 
 
@@ -22,7 +22,7 @@ Repository URL: https://github.com/heyfn/devops-sample-code
 
 
 
-\## Step 2: Create the Script Locally
+## Step 2: Create the Script Locally
 
 
 
@@ -40,7 +40,7 @@ echo "Hello, Jenkins!"
 
 
 
-\## Step 3: Initialize Git and Commit
+## Step 3: Initialize Git and Commit
 
 
 
@@ -48,11 +48,11 @@ Initialized a local Git repository, staged `hello-world.sh`, and committed the f
 
 
 
-!\[Git status showing the staged script](Images/jenkins-hello-world-status.png)
+![Git status showing the staged script](Images/jenkins-hello-world-status.png)
 
 
 
-\## Step 4: Push to GitHub
+## Step 4: Push to GitHub
 
 
 
@@ -60,7 +60,7 @@ Pushed `hello-world.sh` to the `main` branch of the GitHub repository.
 
 
 
-\## Step 5: Verify on GitHub
+## Step 5: Verify on GitHub
 
 
 
@@ -72,11 +72,11 @@ Repository URL: https://github.com/heyfn/devops-sample-code
 
 
 
-!\[hello-world.sh visible in GitHub](Images/jenkins-hello-world-github.png)
+![hello-world.sh visible in GitHub](Images/jenkins-hello-world-github.png)
 
 
 
-\## Step 6: Create the Jenkins Job
+## Step 6: Create the Jenkins Job
 
 
 
@@ -84,7 +84,7 @@ Created a Jenkins Freestyle project named `HelloWorld`.
 
 
 
-\### Source Code Management â€” Git
+### Source Code Management — Git
 
 
 
@@ -92,15 +92,15 @@ Repository URL: `https://github.com/heyfn/devops-sample-code.git`
 
 
 
-Branch: `\*/main`
+Branch: `*/main`
 
 
 
-!\[Jenkins Git SCM configuration](Images/jenkins-job-scm-config.png)
+![Jenkins Git SCM configuration](Images/jenkins-job-scm-config.png)
 
 
 
-\### Build Steps â€” Execute shell
+### Build Steps — Execute shell
 
 
 
@@ -116,15 +116,15 @@ sh hello-world.sh
 
 
 
-!\[Jenkins Execute shell build step](Images/jenkins-job-build-step.png)
+![Jenkins Execute shell build step](Images/jenkins-job-build-step.png)
 
 
 
-\## Step 7: Run the Jenkins Job
+## Step 7: Run the Jenkins Job
 
 
 
-Ran the `HelloWorld` job using \*\*Build Now\*\* and checked the console output.
+Ran the `HelloWorld` job using **Build Now** and checked the console output.
 
 
 
@@ -132,11 +132,11 @@ The script printed `Hello, Jenkins!`, and the build completed successfully.
 
 
 
-!\[Jenkins console output showing a successful build](Images/jenkins-console-output.png)
+![Jenkins console output showing a successful build](Images/jenkins-console-output.png)
 
 
 
-\## Key Takeaways
+## Key Takeaways
 
 
 
